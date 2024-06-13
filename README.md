@@ -1,8 +1,3 @@
-<a href="https://youtu.be/sQ1zvdS8eU8">
-  <img alt="AI-powered WhatsApp." src="https://i.ibb.co/YcWpZ5F/Screenshot-24.png">
-  <h1 align="center">AI Powered WhatsApp Clone</h1>
-</a>
-
 <p align="center">
  Make WhatsApp a little bit more exiciting by integratin GPT and DALL-E-3 
 </p>
@@ -45,5 +40,4 @@ You can deploy this app by setting up the following services and adding their en
 9. Now it should be up and running. Check out the [TUTORIAL](https://youtu.be/sQ1zvdS8eU8) for a complete walk-through.
 
 ## Thanks for your support
-
--   Like && Subscribe for more projects like this
+Gaurav Arbat
