@@ -4,7 +4,8 @@
 
 @layer base {
 	:root {
-		--background: 48, 8%, 88%; /* CHANGED */
+		--background: 48, 8%, 88%;
+		/* CHANGED */
 		--foreground: 222.2 84% 4.9%;
 
 		/* CLASSES ADDED BY US */
@@ -50,7 +51,8 @@
 	}
 
 	.dark {
-		--background: 202, 31%, 7%; /* CHANGED */
+		--background: 202, 31%, 7%;
+		/* CHANGED */
 		--foreground: 210 40% 98%;
 
 		/* CLASSES ADDED BY US: */
@@ -100,6 +102,7 @@
 	* {
 		@apply border-border;
 	}
+
 	body {
 		@apply bg-background text-foreground;
 	}
@@ -110,11 +113,68 @@
 	::-webkit-scrollbar {
 		width: 8px;
 	}
+
 	::-webkit-scrollbar-thumb {
 		background-color: hsl(var(--gray-primary));
 		border-radius: 4px;
 	}
+
 	::-webkit-scrollbar-track {
 		background-color: hsl(var(--container));
 	}
+}
+
+/* Smooth transition for left panel */
+.fixed-panel {
+	transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+	.bg-left-panel {
+		background-image: url('/path/to/mobile-background.png');
+		background-size: cover;
+	}
+
+	.flex-1 {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.left-panel {
+		width: 100%;
+		height: 100px;
+	}
+
+	.right-panel {
+		width: 100%;
+		height: calc(100vh - 100px);
+	}
+}
+.width{
+	width: 390px;
+}
+.width1{
+	width: 470px;
+}
+.width3{
+	width: 970px;
+}
+.style {
+    width: 996px;
+    height: 731px;
+}
+.style1 {
+    width: 63px;
+    height: 731px;
+}
+
+.style4{
+    height: 601px;
+}
+.style5 {
+    margin: 12px;
+}
+.style6 {
+    margin-left: -21px;
+    background: transparent;
 }

@@ -73,7 +73,6 @@ const UserListDialog = () => {
 			setGroupName("");
 			setSelectedImage(null);
 
-			// TODO => Update a global state called "selectedConversation"
 			const conversationName = isGroup ? groupName : users?.find((user) => user._id === selectedUsers[0])?.name;
 
 			setSelectedConversation({
@@ -104,23 +103,21 @@ const UserListDialog = () => {
 			<DialogTrigger>
 				<MessageSquareDiff size={20} />
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent className="max-w-md w-full p-4 sm:max-w-lg sm:w-full">
 				<DialogHeader>
-					{/* TODO: <DialogClose /> will be here */}
 					<DialogClose ref={dialogCloseRef} />
-					<DialogTitle>USERS</DialogTitle>
+					<DialogTitle>New Chat</DialogTitle>
 				</DialogHeader>
 
-				<DialogDescription>Start a new chat</DialogDescription>
+				<DialogDescription>Select users to start a new chat</DialogDescription>
 				{renderedImage && (
-					<div className='w-16 h-16 relative mx-auto'>
-						<Image src={renderedImage} fill alt='user image' className='rounded-full object-cover' />
+					<div className="w-16 h-16 relative mx-auto">
+						<Image src={renderedImage} fill alt="user image" className="rounded-full object-cover" />
 					</div>
 				)}
-				{/* TODO: input file */}
 				<input
-					type='file'
-					accept='image/*'
+					type="file"
+					accept="image/*"
 					ref={imgRef}
 					hidden
 					onChange={(e) => setSelectedImage(e.target.files![0])}
@@ -128,23 +125,24 @@ const UserListDialog = () => {
 				{selectedUsers.length > 1 && (
 					<>
 						<Input
-							placeholder='Group Name'
+							placeholder="Group Name"
 							value={groupName}
 							onChange={(e) => setGroupName(e.target.value)}
+							className="mt-2"
 						/>
-						<Button className='flex gap-2' onClick={() => imgRef.current?.click()}>
+						<Button className="flex gap-2 mt-2" onClick={() => imgRef.current?.click()}>
 							<ImageIcon size={20} />
 							Group Image
 						</Button>
 					</>
 				)}
-				<div className='flex flex-col gap-3 overflow-auto max-h-60'>
+				<div className="flex flex-col gap-3 overflow-auto max-h-60 mt-4">
 					{users?.map((user) => (
 						<div
 							key={user._id}
-							className={`flex gap-3 items-center p-2 rounded cursor-pointer active:scale-95 
+							className={`flex gap-3 items-center p-2 rounded cursor-pointer 
 								transition-all ease-in-out duration-300
-							${selectedUsers.includes(user._id) ? "bg-green-primary" : ""}`}
+								${selectedUsers.includes(user._id) ? "bg-green-100" : ""}`}
 							onClick={() => {
 								if (selectedUsers.includes(user._id)) {
 									setSelectedUsers(selectedUsers.filter((id) => id !== user._id));
@@ -153,34 +151,35 @@ const UserListDialog = () => {
 								}
 							}}
 						>
-							<Avatar className='overflow-visible'>
+							<Avatar className="relative overflow-visible">
 								{user.isOnline && (
-									<div className='absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-foreground' />
+									<div className="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-foreground" />
 								)}
-
-								<AvatarImage src={user.image} className='rounded-full object-cover' />
+								<AvatarImage src={user.image} className="rounded-full object-cover" />
 								<AvatarFallback>
-									<div className='animate-pulse bg-gray-tertiary w-full h-full rounded-full'></div>
+									<div className="animate-pulse bg-gray-300 w-full h-full rounded-full"></div>
 								</AvatarFallback>
 							</Avatar>
 
-							<div className='w-full '>
-								<div className='flex items-center justify-between'>
-									<p className='text-md font-medium'>{user.name || user.email.split("@")[0]}</p>
+							<div className="flex-1">
+								<div className="flex items-center justify-between">
+									<p className="text-md font-medium">{user.name || user.email.split("@")[0]}</p>
 								</div>
 							</div>
 						</div>
 					))}
 				</div>
-				<div className='flex justify-between'>
-					<Button variant={"outline"}>Cancel</Button>
+				<div className="flex justify-end mt-4">
+					<Button variant="outline" onClick={() => dialogCloseRef.current?.click()}>
+						Cancel
+					</Button>
 					<Button
 						onClick={handleCreateConversation}
 						disabled={selectedUsers.length === 0 || (selectedUsers.length > 1 && !groupName) || isLoading}
+						className="ml-2"
 					>
-						{/* spinner */}
 						{isLoading ? (
-							<div className='w-5 h-5 border-t-2 border-b-2  rounded-full animate-spin' />
+							<div className="w-5 h-5 border-t-2 border-b-2 border-green-500 rounded-full animate-spin" />
 						) : (
 							"Create"
 						)}
@@ -190,4 +189,6 @@ const UserListDialog = () => {
 		</Dialog>
 	);
 };
+
 export default UserListDialog;
+

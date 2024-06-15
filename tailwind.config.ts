@@ -82,9 +82,20 @@ const config = {
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
 			},
+			transitionProperty: {
+				'transform': 'transform',
+				'width': 'width',
+			},
+			transitionTimingFunction: {
+				'in-out': 'ease-in-out',
+			},
+			transitionDuration: {
+				'300': '300ms',
+			},
 		},
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 
 export default config;
+
