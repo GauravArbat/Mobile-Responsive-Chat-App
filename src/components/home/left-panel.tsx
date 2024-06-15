@@ -1,4 +1,5 @@
 "use client";
+
 import { ListFilter, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import ThemeSwitch from "./theme-switch";
@@ -11,7 +12,11 @@ import { api } from "../../../convex/_generated/api";
 import { useEffect } from "react";
 import { useConversationStore } from "@/store/chat-store";
 
-const LeftPanel = ({ onUserClick }) => {
+type LeftPanelProps = {
+	onUserClick: (userId: string) => void;
+};
+
+const LeftPanel = ({ onUserClick }: LeftPanelProps) => {
 	const { isAuthenticated, isLoading } = useConvexAuth();
 	const conversations = useQuery(api.conversations.getMyConversations, isAuthenticated ? undefined : "skip");
 
@@ -81,6 +86,7 @@ const LeftPanel = ({ onUserClick }) => {
 };
 
 export default LeftPanel;
+
 
 
 
