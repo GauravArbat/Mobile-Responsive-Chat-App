@@ -169,12 +169,23 @@
 }
 
 .style4{
-    height: 601px;
+    height: 554px;
 }
 .style5 {
     margin: 12px;
 }
+
 .style6 {
-	margin-left: 338px;
-    margin-top: -18px;
+    margin-left: -22px;
+    margin-top: 0px;
+    background: transparent;
+}
+
+/* Responsive styles for small devices */
+@media (max-width: 768px) {
+	.style6 {
+		margin-left: 278px;
+	margin-top: -18px;
+	background-color:white;
+	}
 }
