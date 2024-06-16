@@ -9,6 +9,7 @@ import { useTheme } from "next-themes";
 
 export default function Home() {
     const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(true); // Set to true to open the left panel by default
+    const { theme } = useTheme(); // Use the useTheme hook to get the current theme
 
     const toggleLeftPanel = () => {
         setIsLeftPanelOpen(!isLeftPanelOpen);
@@ -27,14 +28,14 @@ export default function Home() {
                 <div className="fixed top-0 left-0 w-full h-36 bg-green-primary dark:bg-transparent -z-30" />
                 {!isLeftPanelOpen && (
                     <button
-                        className="absolute top-4 left-4 p-2 rounded md:hidden z-50 bg-gray-200 dark:bg-gray-800 style6"
+                        className="absolute top-4 left-4 p-2 rounded md:hidden z-50 bg-transparent style6"
                         onClick={toggleLeftPanel}
                     >
                         <FontAwesomeIcon 
                             icon={faComments} // Using faComments from regular icons
-                            style={{ color: '#1E3050' }}
+                            style={{ color: theme === 'dark' ? '#FFFFFF' : '#1E3050' }} // Change icon color based on theme
                         />
-						<br />chat
+                        <br />chat
                     </button>
                 )}
                 <div
