@@ -180,6 +180,9 @@
     margin-top: 0px;
     background: transparent;
 }
+.style7 {
+    color: rgb(251 251 251);
+}
 
 /* Responsive styles for small devices */
 @media (max-width: 768px) {
