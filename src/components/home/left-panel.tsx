@@ -13,76 +13,95 @@ import { useEffect } from "react";
 import { useConversationStore } from "@/store/chat-store";
 
 type LeftPanelProps = {
-	onUserClick: (userId: string) => void;
+    onUserClick: (userId: string) => void;
 };
 
 const LeftPanel = ({ onUserClick }: LeftPanelProps) => {
-	const { isAuthenticated, isLoading } = useConvexAuth();
-	const conversations = useQuery(api.conversations.getMyConversations, isAuthenticated ? undefined : "skip");
+    const { isAuthenticated, isLoading } = useConvexAuth();
+    const conversations = useQuery(api.conversations.getMyConversations, isAuthenticated ? undefined : "skip");
 
-	const { selectedConversation, setSelectedConversation } = useConversationStore();
+    const { selectedConversation, setSelectedConversation } = useConversationStore();
 
-	useEffect(() => {
-		const conversationIds = conversations?.map((conversation) => conversation._id);
-		if (selectedConversation && conversationIds && !conversationIds.includes(selectedConversation._id)) {
-			setSelectedConversation(null);
-		}
-	}, [conversations, selectedConversation, setSelectedConversation]);
+    const sortedConversations = conversations?.sort((a, b) => {
+        const timeA = a.lastMessage?._creationTime ? new Date(a.lastMessage._creationTime).getTime() : new Date(a._creationTime).getTime();
+        const timeB = b.lastMessage?._creationTime ? new Date(b.lastMessage._creationTime).getTime() : new Date(b._creationTime).getTime();
+        return timeB - timeA;
+    });
 
-	if (isLoading) return null;
+    useEffect(() => {
+        const conversationIds = sortedConversations?.map((conversation) => conversation._id);
+        if (selectedConversation && conversationIds && !conversationIds.includes(selectedConversation._id)) {
+            setSelectedConversation(null);
+        }
+    }, [sortedConversations, selectedConversation, setSelectedConversation]);
 
-	return (
-		<div className='border-gray-600 border-r'>
-			<div className='sticky top-0 bg-left-panel z-10'>
-				{/* Header */}
-				<div className='flex justify-between bg-gray-primary p-3 items-center'>
-					<UserButton />
+    if (isLoading) return null;
 
-					<div className='flex items-center gap-3'>
-						{isAuthenticated && <UserListDialog />}
-						<ThemeSwitch />
-					</div>
-				</div>
-				<div className='p-3 flex items-center'>
-					{/* Search */}
-					<div className='relative h-10 mx-3 flex-1'>
-						<Search
-							className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10'
-							size={18}
-						/>
-						<Input
-							type='text'
-							placeholder='Search or start a new chat'
-							className='pl-10 py-2 text-sm w-full rounded shadow-sm bg-gray-primary focus-visible:ring-transparent'
-						/>
-					</div>
-					<ListFilter className='cursor-pointer' />
-				</div>
-			</div>
+    return (
+        <div className='border-gray-600 border-r h-full flex flex-col'>
+            <div className='sticky top-0 bg-left-panel z-10'>
+                {/* Header */}
+                <div className='flex justify-between bg-gray-primary p-3 items-center'>
+                    <UserButton />
 
-			{/* Chat List */}
-			<div className='my-3 flex flex-col gap-0 max-h-[80%] overflow-auto'>
-				{/* Conversations will go here*/}
-				{conversations?.map((conversation) => (
-					<div
-						key={conversation._id}
-						onClick={() => onUserClick(conversation._id)}
-					>
-						<Conversation key={conversation._id} conversation={conversation} />
-					</div>
-				))}
+                    <div className='flex items-center gap-3'>
+                        {isAuthenticated && <UserListDialog />}
+                        <ThemeSwitch />
+                    </div>
+                </div>
+                <div className='p-3 flex items-center'>
+                    {/* Search */}
+                    <div className='relative h-10 mx-3 flex-1'>
+                        <Search
+                            className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10'
+                            size={18}
+                        />
+                        <Input
+                            type='text'
+                            placeholder='Search or start a new chat'
+                            className='pl-10 py-2 text-sm w-full rounded shadow-sm bg-gray-primary focus-visible:ring-transparent'
+                        />
+                    </div>
+                    <ListFilter className='cursor-pointer' />
+                </div>
+            </div>
 
-				{conversations?.length === 0 && (
-					<>
-						<p className='text-center text-gray-500 text-sm mt-3'>No conversations yet</p>
-						<p className='text-center text-gray-500 text-sm mt-3'>
-							We understand {"you're"} an introvert, but {"you've"} got to start somewhere 😊
-						</p>
-					</>
-				)}
-			</div>
-		</div>
-	);
+            {/* Chat List */}
+            <div className='my-3 flex-1 overflow-auto'>
+                {/* Conversations will go here*/}
+                {sortedConversations?.map((conversation) => (
+                    <div
+                        key={conversation._id}
+                        onClick={() => onUserClick(conversation._id)}
+                    >
+                        <Conversation key={conversation._id} conversation={conversation} />
+                    </div>
+                ))}
+
+                {sortedConversations?.length === 0 && (
+                    <>
+                        <p className='text-center text-gray-500 text-sm mt-3'>No conversations yet</p>
+                        <p className='text-center text-gray-500 text-sm mt-3'>
+                            We understand {"you're"} an introvert, but {"you've"} got to start somewhere 😊
+                        </p>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default LeftPanel;
+
+
+
+
+
+
+
+
+
+
+
+
+
